@@ -1,14 +1,15 @@
-// AppDatacontext/TodoDbContext.cs
-
+// AppDataContext/TodoDbContext.cs
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using TodoAPI.Models;
 
 namespace TodoAPI.AppDataContext
 {
+
     // TodoDbContext class inherits from DbContext
     public class TodoDbContext : DbContext
     {
+
         // DbSettings field to store the connection string
         private readonly DbSettings _dbsettings;
 
@@ -18,10 +19,11 @@ namespace TodoAPI.AppDataContext
             _dbsettings = dbSettings.Value;
         }
 
-        // DbSet property to represent the Todo table
-        public DbSet<TodoAPI> Todos { get; set; }
 
-        // Configuring the datbase provider and connection string
+        // DbSet property to represent the Todo table
+        public DbSet<Todo> Todos { get; set; }
+
+        // Configuring the database provider and connection string
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -33,7 +35,7 @@ namespace TodoAPI.AppDataContext
         {
             modelBuilder.Entity<Todo>()
                 .ToTable("TodoAPI")
-                .HasKey(x => x.id)
+                .HasKey(x => x.id);
         }
     }
 }
