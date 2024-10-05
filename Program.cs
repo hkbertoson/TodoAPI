@@ -1,7 +1,10 @@
 // program.cs
 
 using TodoAPI.AppDataContext;
+using TodoAPI.Interface;
+using TodoAPI.Middleware;
 using TodoAPI.Models;
+using TodoAPI.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +17,15 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.Configure<DbSettings>(builder.Configuration.GetSection("DbSettings"));
 builder.Services.AddSingleton<TodoDbContext>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
+builder.Services.AddProblemDetails();
+
+// Adding of login 
+builder.Services.AddLogging();
+
 
 var app = builder.Build();
 
@@ -30,6 +42,7 @@ var app = builder.Build();
 
     app.UseHttpsRedirection();
 
+    app.UseExceptionHandler();
     app.UseAuthorization();
 
     app.MapControllers();
